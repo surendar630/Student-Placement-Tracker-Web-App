@@ -1,0 +1,6 @@
+[
+  {"id": "1","name":"Alice","department":"CSE","cgpa":8.7,"placed":"Yes","company":"Infosys"},
+  {"id": "2","name":"Bob","department":"ECE","cgpa":7.5,"placed":"No","company":""},
+  {"id": "3","name":"Chirag","department":"CSE","cgpa":9.1,"placed":"Yes","company":"TCS"},
+  {"id": "4","name":"Deepa","department":"IT","cgpa":7.9,"placed":"No","company":""}
+]

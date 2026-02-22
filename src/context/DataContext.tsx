@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Company, InterviewRound, ResumeVersion, CGPAEntry, Offer, Skill } from '@/types';
+import { Company, InterviewRound, ResumeVersion, CGPAEntry, Offer, Skill, Student } from '@/types';
 
 interface DataContextType {
   companies: Company[];
@@ -9,6 +9,7 @@ interface DataContextType {
   cgpaEntries: CGPAEntry[];
   offers: Offer[];
   skills: Skill[];
+  students: Student[];
   addCompany: (company: Omit<Company, 'id'>) => void;
   updateCompany: (id: string, updates: Partial<Company>) => void;
   deleteCompany: (id: string) => void;
@@ -21,6 +22,9 @@ interface DataContextType {
   addSkill: (skill: Omit<Skill, 'id'>) => void;
   updateSkill: (id: string, updates: Partial<Skill>) => void;
   deleteSkill: (id: string) => void;
+  addStudent: (student: Omit<Student, 'id'>) => void;
+  updateStudent: (id: string, updates: Partial<Student>) => void;
+  deleteStudent: (id: string) => void;
 }
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -37,6 +41,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [cgpaEntries, setCgpaEntries] = useState<CGPAEntry[]>([]);
   const [offers, setOffers] = useState<Offer[]>([]);
   const [skills, setSkills] = useState<Skill[]>([]);
+  const [students, setStudents] = useState<Student[]>([]);
 
   useEffect(() => {
     const storedCompanies = localStorage.getItem('companies');
@@ -44,11 +49,13 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const storedCGPA = localStorage.getItem('cgpaEntries');
     const storedOffers = localStorage.getItem('offers');
     const storedSkills = localStorage.getItem('skills');
+    const storedStudents = localStorage.getItem('students');
     if (storedCompanies) setCompanies(JSON.parse(storedCompanies));
     if (storedResumes) setResumes(JSON.parse(storedResumes));
     if (storedCGPA) setCgpaEntries(JSON.parse(storedCGPA));
     if (storedOffers) setOffers(JSON.parse(storedOffers));
     if (storedSkills) setSkills(JSON.parse(storedSkills));
+    if (storedStudents) setStudents(JSON.parse(storedStudents));
   }, []);
 
   useEffect(() => {
@@ -70,6 +77,10 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     localStorage.setItem('skills', JSON.stringify(skills));
   }, [skills]);
+
+  useEffect(() => {
+    localStorage.setItem('students', JSON.stringify(students));
+  }, [students]);
 
   const addCompany = (company: Omit<Company, 'id'>) => {
     const newCompany: Company = { ...company, id: Date.now().toString() };
@@ -128,6 +139,19 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setSkills(prev => prev.filter(s => s.id !== id));
   };
 
+  const addStudent = (student: Omit<Student, 'id'>) => {
+    const newStudent: Student = { ...student, id: Date.now().toString() };
+    setStudents(prev => [...prev, newStudent]);
+  };
+
+  const updateStudent = (id: string, updates: Partial<Student>) => {
+    setStudents(prev => prev.map(s => s.id === id ? { ...s, ...updates } : s));
+  };
+
+  const deleteStudent = (id: string) => {
+    setStudents(prev => prev.filter(s => s.id !== id));
+  };
+
   return (
     <DataContext.Provider value={{
       companies,
@@ -135,6 +159,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       cgpaEntries,
       offers,
       skills,
+      students,
       addCompany,
       updateCompany,
       deleteCompany,
@@ -147,6 +172,9 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       addSkill,
       updateSkill,
       deleteSkill,
+      addStudent,
+      updateStudent,
+      deleteStudent,
     }}>
       {children}
     </DataContext.Provider>

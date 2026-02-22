@@ -4,7 +4,7 @@ import { useData } from '@/context/DataContext';
 import { CSVLink } from 'react-csv';
 
 export default function LiveDataset() {
-  const { companies, resumes, cgpaEntries, offers, skills } = useData();
+  const { companies, resumes, cgpaEntries, offers, skills, students } = useData();
 
   const csvData = [
     ['Type', 'Details'],
@@ -13,6 +13,7 @@ export default function LiveDataset() {
     ...cgpaEntries.map(c => ['CGPA', `${c.semester} - ${c.cgpa}`]),
     ...offers.map(o => ['Offer', `${o.status} - ${o.salary || ''}`]),
     ...skills.map(s => ['Skill', `${s.name} - ${s.level}`]),
+    ...students.map(s => ['Student', `${s.name} - ${s.department} - ${s.cgpa} - ${s.placed} - ${s.company}`]),
   ];
 
   const industryStats = companies.reduce((acc, c) => {
@@ -64,6 +65,12 @@ export default function LiveDataset() {
           {cgpaEntries.slice(-5).map(e => (
             <p key={e.id} className="py-1">{e.semester}: {e.cgpa}</p>
           ))}
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <h3 className="font-bold text-xl mb-4 text-red-600">Student Placement Stats</h3>
+          <p>Placed: {students.filter(s => s.placed === 'Yes').length}</p>
+          <p>Not Placed: {students.filter(s => s.placed === 'No').length}</p>
+          <p>Average CGPA: {students.length > 0 ? (students.reduce((sum, s) => sum + s.cgpa, 0) / students.length).toFixed(2) : 0}</p>
         </div>
       </div>
     </div>

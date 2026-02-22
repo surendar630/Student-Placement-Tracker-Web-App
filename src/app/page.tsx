@@ -9,12 +9,13 @@ import OfferStatus from '@/components/OfferStatus';
 import SkillsTracker from '@/components/SkillsTracker';
 import Dashboard from '@/components/Dashboard';
 import LiveDataset from '@/components/LiveDataset';
+import StudentsList from '@/components/StudentsList';
 import { useData } from '@/context/DataContext';
 import { CSVLink } from 'react-csv';
-import { FaTachometerAlt, FaBuilding, FaUserFriends, FaFileAlt, FaChartLine, FaHandshake, FaTools, FaDatabase } from 'react-icons/fa';
+import { FaTachometerAlt, FaBuilding, FaUserFriends, FaFileAlt, FaChartLine, FaHandshake, FaTools, FaDatabase, FaUserGraduate } from 'react-icons/fa';
 
 export default function Home() {
-  const { companies, resumes, cgpaEntries, offers, skills } = useData();
+  const { companies, resumes, cgpaEntries, offers, skills, students } = useData();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
 
@@ -30,6 +31,9 @@ export default function Home() {
     totalOffers: offers.length,
     acceptedOffers: offers.filter(o => o.status === 'accepted').length,
     totalSkills: skills.length,
+    totalStudents: students.length,
+    placedStudents: students.filter(s => s.placed === 'Yes').length,
+    averageStudentCGPA: students.length > 0 ? (students.reduce((sum, s) => sum + s.cgpa, 0) / students.length).toFixed(2) : '0',
   };
 
   return (
@@ -86,8 +90,14 @@ export default function Home() {
           >
             <FaDatabase /> Live Dataset
           </button>
+          <button
+            className={`flex-1 p-3 rounded-md flex items-center justify-center gap-2 transition-all ${activeTab === 'students' ? 'bg-blue-500 text-white shadow-md' : 'text-gray-700 hover:bg-gray-200'}`}
+            onClick={() => setActiveTab('students')}
+          >
+            <FaUserGraduate /> Students
+          </button>
         </div>
-        {activeTab === 'dashboard' && <Dashboard stats={stats} />}
+        {activeTab === 'dashboard' && <Dashboard stats={stats} setActiveTab={setActiveTab} />}
         {activeTab === 'companies' && <CompaniesList />}
         {activeTab === 'interviews' && (
           <div>
@@ -109,6 +119,7 @@ export default function Home() {
         {activeTab === 'offers' && <OfferStatus />}
         {activeTab === 'skills' && <SkillsTracker />}
         {activeTab === 'dataset' && <LiveDataset />}
+        {activeTab === 'students' && <StudentsList />}
       </div>
     </div>
   </div>

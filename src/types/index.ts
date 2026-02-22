@@ -62,3 +62,12 @@ export interface Skill {
   level: 'beginner' | 'intermediate' | 'advanced' | 'expert';
   category: string;
 }
+
+export interface Student {
+  id: string;
+  name: string;
+  department: string;
+  cgpa: number;
+  placed: 'Yes' | 'No';
+  company: string;
+}
