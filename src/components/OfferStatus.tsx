@@ -67,7 +67,7 @@ export default function OfferStatus() {
             <div key={offer.id} className="border p-4 rounded shadow">
               <h3 className="font-bold text-lg">{company?.name}</h3>
               <p><strong>Status:</strong> {offer.status}</p>
-              {offer.salary > 0 && <p><strong>Salary:</strong> ${offer.salary}</p>}
+              {offer.salary && offer.salary > 0 && <p><strong>Salary:</strong> ${offer.salary}</p>}
               {offer.location && <p><strong>Location:</strong> {offer.location}</p>}
               <p><strong>Details:</strong> {offer.details}</p>
             </div>

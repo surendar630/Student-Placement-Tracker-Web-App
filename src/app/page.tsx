@@ -8,6 +8,7 @@ import CGPATracker from '@/components/CGPATracker';
 import OfferStatus from '@/components/OfferStatus';
 import SkillsTracker from '@/components/SkillsTracker';
 import { useData } from '@/context/DataContext';
+import { CSVLink } from 'react-csv';
 import { FaTachometerAlt, FaBuilding, FaUserFriends, FaFileAlt, FaChartLine, FaHandshake, FaTools, FaDatabase } from 'react-icons/fa';
 
 export default function Home() {

@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  output: 'export',
+  basePath: '/Student-Placement-Tracker-Web-App',
+  trailingSlash: true,
 };
 
 export default nextConfig;
