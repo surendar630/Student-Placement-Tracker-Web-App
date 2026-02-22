@@ -7,6 +7,9 @@ export interface Company {
   website?: string;
   location?: string;
   jobRole?: string;
+  industry?: string;
+  contactPerson?: string;
+  notes?: string;
   interviewRounds: InterviewRound[];
 }
 
@@ -19,6 +22,8 @@ export interface InterviewRound {
   notes: string;
   interviewer?: string;
   feedback?: string;
+  platform?: string;
+  rating?: number;
 }
 
 export interface ResumeVersion {
@@ -28,6 +33,8 @@ export interface ResumeVersion {
   file: string;
   description?: string;
   tags?: string[];
+  date?: string;
+  changes?: string;
 }
 
 export interface CGPAEntry {
@@ -45,6 +52,8 @@ export interface Offer {
   details: string;
   salary?: number;
   location?: string;
+  offerDate?: string;
+  probationPeriod?: string;
 }
 
 export interface Skill {
